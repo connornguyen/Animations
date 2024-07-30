@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var animationAmount = 1.0
+    
+    @State private var isShowingRect = false
+    
+    
     var body: some View {
-        NavigationStack{
-            Button("OK"){
-                animationAmount += 0.1
-                
+        VStack(spacing: 0){
+            Button("Tap me"){
+                withAnimation{
+                    isShowingRect.toggle()
+                }
             }
-            .padding(50)
-            .background(.red)
-            .foregroundColor(.white)
-            .clipShape(.circle)
-            .scaleEffect(animationAmount)
-            .blur(radius: (animationAmount - 1) * 3)
-            .animation(.default, value: animationAmount)
+            
+            if isShowingRect {
+                Rectangle()
+                    .fill(.red)
+                    .frame(width: 200, height: 200)
+                    .padding(10)
+                    .transition(.asymmetric(insertion: .slide, removal: .opacity))
+            }
+            
         }
     }
 }
